@@ -1,7 +1,10 @@
 <script>
+	import {
+		getToken
+	} from "./pages/utils/voice.js"
 	export default {
 		onLaunch: function() {
-			console.log('App Launch')
+			getToken()
 		},
 		onShow: function() {
 			console.log('App Show')
