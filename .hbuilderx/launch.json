@@ -10,6 +10,13 @@
      	{
      		"launchtype" : "local"
      	},
+<<<<<<< HEAD
+=======
+     	"h5" : 
+     	{
+     		"launchtype" : "local"
+     	},
+>>>>>>> 6659fa887bb0bbb04c45b14134442c32c1943d32
      	"type" : "uniCloud"
      }
     ]

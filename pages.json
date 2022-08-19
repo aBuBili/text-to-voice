@@ -9,8 +9,46 @@
 					"titleView": false
 				}
 			}
+		},
+		{
+			"path": "pages/ocr/index",
+			"style": {
+				"navigationBarTitleText": "识别文字",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false
+				}
+			}
+		},
+		{
+			"path": "pages/ocr/translate",
+			"style": {
+				"navigationBarTitleText": "ocr",
+				// "navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false
+				}
+			}
 		}
 	],
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#3cc51f",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"iconWidth": "28upx",
+		"list": [{
+			"pagePath": "pages/index/index",
+			"iconPath": "static/tabbarIcons/text_g.png",
+			"selectedIconPath": "static/tabbarIcons/text.png"
+			// "text": "文字"
+		}, {
+			"pagePath": "pages/ocr/index",
+			"iconPath": "static/tabbarIcons/pic_g.png",
+			"selectedIconPath": "static/tabbarIcons/pic.png"
+			// "text": "图片"
+		}]
+	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
