@@ -1,54 +1,31 @@
 <template>
-	<view class="ocr">
-		<view id="container"></view>
+	<view class="content">
+		<image :src="filePath" mode="widthFix" :style="{width: '100%'}" class="photo"></image>
 	</view>
 </template>
 
+
 <script>
-	import Konva from "konva"
+	import {
+		ocr
+	} from "../utils/ocr.js"
 	export default {
 		data() {
-			return {}
+			return {
+				filePath: '',
+			}
 		},
 		onLoad(e) {
-			console.log(Konva) 
-			// var width = window.innerWidth;
-			// var height = window.innerHeight;
-
-			var stage = new Konva.Stage({
-				container: 'container',
-				width: '200px',
-				height: '200px'
-			});
-
-			var layer = new Konva.Layer();
-
-			var rect1 = new Konva.Rect({
-				x: 20,
-				y: 20,
-				width: 100,
-				height: 50,
-				fill: 'green',
-				stroke: 'black',
-				strokeWidth: 4
-			});
-			// add the shape to the layer
-			layer.add(rect1);
-			// add the layer to the stage
-			stage.add(layer);
+			this.filePath = e.path
+			ocr(e.path)
 		},
-		methods: {
-
-		}
+		methods: {}
 	}
 </script>
 
 <style lang="scss" scoped>
-	.ocr {
-		height: 100%;
-	}
-
-	.cameraBtn {
-		margin-top: 120upx;
+	.content {
+		background-color: #FAFAFA;
+		height: 100vh;
 	}
 </style>

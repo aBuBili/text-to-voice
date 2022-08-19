@@ -63,9 +63,6 @@
 				}
 			});
 		},
-		onTabItemTap(e) {
-			console.log(e)
-		},
 		methods: {
 			// 点击播放按钮
 			async submit() {

@@ -6,12 +6,12 @@
 </template>
 
 <script>
+	import {
+		setFilePath
+	} from "../utils/ocr.js"
 	export default {
 		data() {
 			return {}
-		},
-		onTabItemTap(e) {
-			console.log(e)
 		},
 		methods: {
 			getPhoto: (type) => {
@@ -24,8 +24,7 @@
 						uni.getImageInfo({
 							src: res.tempFilePaths[0],
 							success: function(image) {
-								console.log(image);
-								console.log(image.height);
+								setFilePath(image.path)
 								uni.navigateTo({
 									url: `./translate?path=${image.path}`,
 								})

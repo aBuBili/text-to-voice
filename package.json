@@ -1,18 +1,34 @@
 {
-	"name": "text-to-voice",
-	"version": "1.0.0",
-	"description": "",
-	"main": "main.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"author": "",
-	"license": "ISC",
-	"dependencies": {
-		"crypto-js": "^4.1.1",
-		"enc": "^0.4.0",
-		"env": "0.0.2",
-		"js-base64": "^3.6.1",
-		"konva": "^8.3.10"
-	}
+  "name": "text-to-voice",
+  "version": "1.0.0",
+  "description": "### 目标用户   面向可以使用智能手机，仅仅不认识字的用户",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@alicloud/ocr-api20210707": "^1.1.7",
+    "crypto-js": "^4.1.1",
+    "enc": "^0.4.0",
+    "env": "0.0.2",
+    "js-base64": "^3.6.1",
+	
+	"@alicloud/darabonba-stream": "^0.0.1",
+	"@alicloud/ocr-api20210707": "^1.1.7",
+	"@alicloud/openapi-client": "^0.4.1",
+	"@alicloud/tea-console": "^1.0.0",
+	"@alicloud/tea-typescript": "^1.7.1",
+	"@alicloud/tea-util": "^1.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aBuBili/text-to-voice.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/aBuBili/text-to-voice/issues"
+  },
+  "homepage": "https://github.com/aBuBili/text-to-voice#readme"
 }

@@ -2,8 +2,10 @@ var audio = ''
 var access_token = ''
 var per = 0 //朗读者 默认是小美
 
+// 12元/万次
+
 // 获取token
-function getToken() {
+function getVoiceToken() {
 	// 语音合成项目的key和密钥
 	const appKey = '7Bm6Lj5hgVNdC3UTRG2jBmCM'
 	const appSecret = 'gxGGih19NRI8OAxiemPxdhQ1v9onDYxZ'
@@ -70,7 +72,7 @@ function changeSpeaker(val) {
 }
 
 module.exports = {
-	getToken,
+	getVoiceToken,
 	play,
 	pause,
 	continuePlay,

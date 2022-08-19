@@ -1,10 +1,14 @@
 <script>
 	import {
-		getToken
+		getVoiceToken
 	} from "./pages/utils/voice.js"
+	import {
+		getOcrToken
+	} from "./pages/utils/ocr.js"
 	export default {
 		onLaunch: function() {
-			getToken()
+			getVoiceToken()
+			getOcrToken()
 		},
 		onShow: function() {
 			console.log('App Show')
