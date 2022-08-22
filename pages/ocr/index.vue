@@ -2,6 +2,8 @@
 	<view class="ocr">
 		<button @click="getPhoto('camera')" class="cameraBtn">拍照</button>
 		<button @click="getPhoto('album')" class="cameraBtn">从相册选择</button>
+
+		<canvas :style="{width:'390px',height:'4000px'}" canvas-id="firstCanvas" id="firstCanvas"></canvas>
 	</view>
 </template>
 
@@ -11,25 +13,64 @@
 	} from "../utils/ocr.js"
 	export default {
 		data() {
-			return {}
+			return {
+
+			}
+		},
+		onShow() {
+
 		},
 		methods: {
 			getPhoto: (type) => {
+				var ctx = uni.createCanvasContext('firstCanvas')
 				uni.chooseImage({
 					count: 1, //默认9
-					sizeType: ['original'], //可以指定是原图还是压缩图，默认二者都有
 					sourceType: [type], //拍照
 					success: function(res) {
-						// 获取图片信息
-						uni.getImageInfo({
-							src: res.tempFilePaths[0],
-							success: function(image) {
-								setFilePath(image.path)
-								uni.navigateTo({
-									url: `./translate?path=${image.path}`,
-								})
+
+						uni.getSystemInfo({
+							success: function(win) {
+								let fh = win.windowHeight;
+								let fw = win.windowWidth;
+
+								uni.getImageInfo({
+									src: res.tempFilePaths[0],
+									success: function(image) {
+
+										const height = Math.floor(image.height *
+											fw / image.width)
+										console.log(height)
+
+										ctx.drawImage(res.tempFilePaths[0], 0, 0,
+											fw, height)
+										ctx.draw()
+										download(fw, height)
+
+										uni.navigateTo({
+											url: `./translate?path=${image.path}`,
+										})
+									}
+								});
+
+
 							}
-						});
+						})
+
+						// 下载压缩的图片
+						function download(w, h) {
+							uni.canvasToTempFilePath({
+								x: 0,
+								y: 0,
+								width: w,
+								height: h,
+								destWidth: w,
+								destHeight: h,
+								canvasId: 'firstCanvas',
+								success: function(res) {
+									console.log(res.tempFilePath)
+								}
+							})
+						}
 					}
 				});
 			},
