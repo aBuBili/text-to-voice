@@ -9,8 +9,11 @@
 
 <script>
 	import {
-		setFilePath
+		setBase64
 	} from "../utils/ocr.js"
+	import {
+		pathToBase64
+	} from "../utils/base64.js"
 	export default {
 		data() {
 			return {
@@ -26,51 +29,27 @@
 				uni.chooseImage({
 					count: 1, //默认9
 					sourceType: [type], //拍照
-					success: function(res) {
+					crop: {
+						quality: 10
+					},
+					success: async function(res) {
 
-						uni.getSystemInfo({
-							success: function(win) {
-								let fh = win.windowHeight;
-								let fw = win.windowWidth;
-
-								uni.getImageInfo({
-									src: res.tempFilePaths[0],
-									success: function(image) {
-
-										const height = Math.floor(image.height *
-											fw / image.width)
-										console.log(height)
-
-										ctx.drawImage(res.tempFilePaths[0], 0, 0,
-											fw, height)
-										ctx.draw()
-										download(fw, height)
-
-										uni.navigateTo({
-											url: `./translate?path=${image.path}`,
-										})
-									}
-								});
-
-
-							}
+						// 转base64
+						await pathToBase64(res.tempFilePaths[0]).then(base64 => {
+							setBase64(base64)
 						})
 
-						// 下载压缩的图片
-						function download(w, h) {
-							uni.canvasToTempFilePath({
-								x: 0,
-								y: 0,
-								width: w,
-								height: h,
-								destWidth: w,
-								destHeight: h,
-								canvasId: 'firstCanvas',
-								success: function(res) {
-									console.log(res.tempFilePath)
-								}
-							})
-						}
+						// 获取图片信息
+						uni.getImageInfo({
+							src: res.tempFilePaths[0],
+							success: function(image) {
+								// console.log(image)
+								uni.navigateTo({
+									url: `./translate?path=${image.path}&width=${image.width}`,
+								})
+							}
+						});
+
 					}
 				});
 			},

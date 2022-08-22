@@ -1,9 +1,7 @@
 <template>
 	<view class="content">
-		<view id="canvas">
-
-		</view>
 		<image :src="filePath" mode="widthFix" :style="{width: '100%'}" class="photo"></image>
+		<view class="">{{fw}}</view>
 	</view>
 </template>
 
@@ -16,23 +14,30 @@
 		data() {
 			return {
 				filePath: '',
-				fullHeight: '',
-				fullwidth: ''
+				fw: ''
 			}
 		},
 		onLoad(e) {
+			console.log('onLoad')
 			this.filePath = e.path
-			ocr(e.path)
+
+			// 获取视口宽度
 			uni.getSystemInfo({
 				success: function(res) {
-					this.fullHeight = res.windowHeight + 'px';
-					this.fullwidth = res.windowWidth + 'px';
+					this.fw = res.windowWidth;
 				}
 			})
-
-			
+			this.getResult()
 		},
-		methods: {}
+		methods: {
+			getResult: async () => {
+				console.log('getResult');
+				const {
+					words_result
+				} = await ocr()
+				console.log(words_result)
+			}
+		}
 	}
 </script>
 

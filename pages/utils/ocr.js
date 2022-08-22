@@ -1,5 +1,5 @@
 var ocr_token = ''
-var filePath = ''
+var base64 = ''
 
 // 获取token
 function getOcrToken() {
@@ -16,43 +16,39 @@ function getOcrToken() {
 	})
 }
 
-
-function setFile(image) {
-	file = urlTobase64(image)
+// 设置图片base64
+function setBase64(str) {
+	console.log('setBase64')
+	base64 = str
 }
 
-function ocr(url) {
-	console.log(filePath)
-	uni.request({
-		url:filePath,
-		method: 'GET',
-		responseType: 'arraybuffer',
-		success: res => {
-			let base64 = 'data:image/jpeg;base64,' + uni.arrayBufferToBase64(res
-			.data); //把arraybuffer转成base64
-			console.log(base64)
+// ocr
+function ocr() {
+	console.log('ocr')
+	return new Promise(function(resolve, reject) {
+		uni.request({
+			url: `https://aip.baidubce.com/rest/2.0/ocr/v1/general?access_token=${ocr_token}`,
+			header: {
+				"Content-Type": "application/x-www-form-urlencoded"
+			},
+			method: 'POST',
+			data: {
+				image: encodeURI(base64),
+				detect_direction: true, // 检测图像朝向
+				// paragraph: true,
+				// vertexes_location: true, //返回文字外接多边形顶点位置
+			},
+			success: (res) => {
+				console.log(res)
+				resolve(res.data)
+			},
+			fail: res => {
+				console.log(res)
+				reject()
+			}
+		})
+	})
 
-			uni.request({
-				url: `https://aip.baidubce.com/rest/2.0/ocr/v1/general?access_token=${ocr_token}`,
-				header: {
-					"Content-Type": "application/x-www-form-urlencoded"
-				},
-				method: 'POST',
-				data: {
-					image: base64,
-					detect_direction: true,
-					paragraph: true,
-					vertexes_location: true,
-				},
-				success: (res) => {
-					console.log(res)
-				}
-			})
-		},
-		fail:res=>{
-			console.log(res)
-		}
-	});
 }
 
 function setFilePath(path) {
@@ -63,5 +59,5 @@ function setFilePath(path) {
 module.exports = {
 	getOcrToken,
 	ocr,
-	setFilePath
+	setBase64
 }
