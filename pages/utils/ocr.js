@@ -24,6 +24,7 @@ function setBase64(str) {
 
 // ocr
 function ocr() {
+	if (base64.length <= 1 || ocr_token.length <= 1) return ''
 	console.log('ocr')
 	return new Promise(function(resolve, reject) {
 		uni.request({

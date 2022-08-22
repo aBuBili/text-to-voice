@@ -1,7 +1,11 @@
 <template>
 	<view class="content">
-		<image :src="filePath" mode="widthFix" :style="{width: '100%'}" class="photo"></image>
-		<view class="">{{fw}}</view>
+		<image :src="imagePath" mode="widthFix" :style="{width: '100%'}" class="photo"></image>
+		<view class="" v-for="(d,index) of list" :key="index">
+			<view class="char" :style="{top: d.top , left: d.left,width: d.width,height: d.height}">
+				{{ d.words }}
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -10,32 +14,41 @@
 	import {
 		ocr
 	} from "../utils/ocr.js"
+
 	export default {
 		data() {
 			return {
-				filePath: '',
-				fw: ''
+				imagePath: '',
+				imageWidth: 390,
+				list: []
 			}
 		},
 		onLoad(e) {
 			console.log('onLoad')
-			this.filePath = e.path
+			this.imagePath = e.path
+			this.imageWidth = parseInt(e.width)
 
-			// 获取视口宽度
-			uni.getSystemInfo({
-				success: function(res) {
-					this.fw = res.windowWidth;
-				}
-			})
 			this.getResult()
 		},
 		methods: {
-			getResult: async () => {
+			async getResult() {
 				console.log('getResult');
 				const {
-					words_result
+					words_result = []
 				} = await ocr()
-				console.log(words_result)
+
+				// 处理结果数据 *2转换upx
+				const a = words_result.map(e => {
+					const item = {
+						words: e.words,
+						top: e.location.top + 'upx',
+						left: e.location.left + 'upx',
+						width: e.location.width + 'upx',
+						height: e.location.height + 'upx',
+					}
+					return item
+				})
+				this.list.splice(0, 0, ...a)
 			}
 		}
 	}
@@ -45,5 +58,9 @@
 	.content {
 		background-color: #FAFAFA;
 		height: 100vh;
+	}
+
+	.char {
+		position: absolute;
 	}
 </style>
