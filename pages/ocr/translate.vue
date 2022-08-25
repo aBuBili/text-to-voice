@@ -2,8 +2,8 @@
 	<view class="content">
 		<image :src="imagePath" mode="widthFix" :style="{width: '100%'}" class="photo"></image>
 		<view class="" v-for="(d,index) of list" :key="index">
-			<view class="char" :style="{top: d.top , left: d.left,width: d.width,height: d.height}">
-				{{ d.words }}
+			<view class="char" :style="{top: d.top , left: d.left,width: d.width,height: d.height}"
+				@click="toPlay(d.words)">
 			</view>
 		</view>
 	</view>
@@ -14,6 +14,15 @@
 	import {
 		ocr
 	} from "../utils/ocr.js"
+
+	import {
+		play,
+		pause,
+		continuePlay,
+		destroy,
+		changeSpeaker,
+		speaker
+	} from "../utils/voice.js"
 
 	export default {
 		data() {
@@ -27,28 +36,32 @@
 			console.log('onLoad')
 			this.imagePath = e.path
 			this.imageWidth = parseInt(e.width)
-
-			this.getResult()
+			this.getOcrResult()
 		},
 		methods: {
-			async getResult() {
+			async getOcrResult() {
 				console.log('getResult');
 				const {
 					words_result = []
 				} = await ocr()
 
-				// 处理结果数据 *2转换upx
+				// 处理结果数据 转换upx
 				const a = words_result.map(e => {
 					const item = {
 						words: e.words,
-						top: e.location.top + 'upx',
-						left: e.location.left + 'upx',
-						width: e.location.width + 'upx',
-						height: e.location.height + 'upx',
+						top: e.location.top + 'px',
+						left: e.location.left + 'px',
+						width: e.location.width + 'px',
+						height: e.location.height + 'px',
 					}
 					return item
 				})
 				this.list.splice(0, 0, ...a)
+			},
+			toPlay(text) {
+				play({
+					content: text
+				})
 			}
 		}
 	}
@@ -62,5 +75,8 @@
 
 	.char {
 		position: absolute;
+		background-color: rgba(#6355FF, 0.2);
+		border: 1px solid #6355FF;
+		border-radius: 4upx;
 	}
 </style>

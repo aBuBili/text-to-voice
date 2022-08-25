@@ -1,6 +1,7 @@
 var audio = ''
 var access_token = ''
 var per = 0 //朗读者 默认是小美
+var loading = false
 
 // 12元/万次
 
@@ -24,6 +25,9 @@ function play({
 	loadEndBack,
 	playEndBack
 }) {
+	if (loading) return;
+	loading = true
+
 	audio = uni.createInnerAudioContext(); // 音频对象
 	audio.loop = false //播放结束不循环播放 未生效
 
@@ -39,6 +43,7 @@ function play({
 	// 加载完成
 	audio.onCanplay(() => {
 		console.log('加载音频完成')
+		loading = false
 		audio.play()
 		loadEndBack()
 	})
@@ -49,6 +54,10 @@ function play({
 		audio.destroy() //销毁 因为有继续自动播放的bug
 		playEndBack()
 	})
+
+	setTimeout(() => {
+		loading = false
+	}, 3000)
 }
 
 // 暂停
