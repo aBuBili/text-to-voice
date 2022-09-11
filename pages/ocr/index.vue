@@ -1,7 +1,11 @@
 <template>
 	<view class="ocr">
-		<button @click="getPhoto('camera')" class="cameraBtn">拍照</button>
-		<button @click="getPhoto('album')" class="cameraBtn">从相册选择</button>
+		<view class="iconBox" @click="getPhoto('camera')">
+			<image src="../../static/cramer.png" class="choiceIcon" ></image>
+		</view>
+		<view class="iconBox" @click="getPhoto('album')">
+			<image src="../../static/photo.png" class="choiceIcon"></image>
+		</view>
 
 		<canvas canvas-id="myCanvas" :style="{width: screenWidth +'px',height:'1200px'}" class="hiddenCanvas"> </canvas>
 	</view>
@@ -93,16 +97,34 @@
 
 <style lang="scss" scoped>
 	.ocr {
-		height: 100%;
+		height: 100vh;
+		background-color: #383838;
+		padding-top: 20%;
 	}
 
 	.cameraBtn {
 		margin-top: 120upx;
 	}
-	
-	.hiddenCanvas{
+
+	.hiddenCanvas {
 		position: fixed;
 		top: 1300px;
 		left: 1000px
+	}
+
+	.iconBox {
+		width: 280px;
+		height: 200px;
+		background-color: #fff;
+		border-radius: 32px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin: 40px auto;
+	}
+
+	.choiceIcon {
+		width: 160upx;
+		height: 160upx;
 	}
 </style>

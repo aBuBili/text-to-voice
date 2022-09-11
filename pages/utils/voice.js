@@ -21,12 +21,14 @@ function getVoiceToken() {
 
 // 播放音频
 function play({
-	content,
-	loadEndBack,
-	playEndBack
+	content = "您还没有输入文字",
+	loadEndBack = () => {},
+	playEndBack = () => {},
 }) {
 	if (loading) return;
 	loading = true
+
+	destory() //如果有正在进行的audio 则清掉
 
 	audio = uni.createInnerAudioContext(); // 音频对象
 	audio.loop = false //播放结束不循环播放 未生效
@@ -51,7 +53,7 @@ function play({
 	// 自然播放结束
 	audio.onEnded(() => {
 		console.log('播放结束')
-		audio.destroy() //销毁 因为有继续自动播放的bug
+		destory()
 		playEndBack()
 	})
 
@@ -63,6 +65,7 @@ function play({
 // 暂停
 function pause() {
 	audio.pause()
+	console.log('播放状态 去暂停')
 }
 
 // 继续播放
@@ -72,7 +75,11 @@ function continuePlay() {
 
 // 销毁
 function destory() {
-	audio.destroy()
+	if (audio != '') {
+		audio.stop()
+		audio.destroy()
+		audio = ''
+	}
 }
 
 // 更改朗读者
@@ -87,5 +94,5 @@ module.exports = {
 	continuePlay,
 	destory,
 	changeSpeaker,
-	speaker: per
+	speaker: per,
 }

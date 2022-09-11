@@ -74,3 +74,43 @@ $uni-color-subtitle: #555555; // 二级标题颜色
 $uni-font-size-subtitle:36rpx;
 $uni-color-paragraph: #3F536E; // 文章段落颜色
 $uni-font-size-paragraph:30rpx;
+
+// loading
+	.loading {
+		width: 80upx;
+		display: flex;
+		align-items: center;
+		position: relative;
+		margin: auto;
+
+		@mixin baseCyl() {
+			position: absolute;
+			width: 16upx;
+			background-color: #fff;
+			border-radius: 8upx;
+			animation: change 0.2s infinite alternate;
+		}
+
+		&::before {
+			@include baseCyl();
+			content: "";
+			left: 50upx;
+		}
+
+		&::after {
+			@include baseCyl();
+			content: "";
+			left: 20upx;
+			animation-delay: 0.2s;
+		}
+
+		@keyframes change {
+			0% {
+				height: 16px;
+			}
+
+			100% {
+				height: 6px;
+			}
+		}
+	}

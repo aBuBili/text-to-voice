@@ -13,8 +13,8 @@
 		{
 			"path": "pages/ocr/index",
 			"style": {
-				"navigationBarTitleText": "识别文字",
-				"navigationStyle": "custom",
+				"navigationBarTitleText": "OCR",
+				// "navigationStyle": "custom",
 				"app-plus": {
 					"titleView": false
 				}
@@ -23,7 +23,7 @@
 		{
 			"path": "pages/ocr/translate",
 			"style": {
-				"navigationBarTitleText": "ocr",
+				"navigationBarTitleText": "📢",
 				// "navigationStyle": "custom",
 				"app-plus": {
 					"titleView": false

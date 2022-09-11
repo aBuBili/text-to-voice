@@ -28,6 +28,7 @@ function ocr() {
 	console.log('ocr')
 	return new Promise(function(resolve, reject) {
 		uni.request({
+			// accurate
 			url: `https://aip.baidubce.com/rest/2.0/ocr/v1/general?access_token=${ocr_token}`,
 			header: {
 				"Content-Type": "application/x-www-form-urlencoded"
@@ -36,11 +37,28 @@ function ocr() {
 			data: {
 				image: encodeURI(base64),
 				detect_direction: true, // 检测图像朝向
-				// paragraph: true,
+				paragraph: true, // 段落
 				// vertexes_location: true, //返回文字外接多边形顶点位置
 			},
 			success: (res) => {
 				console.log(res)
+				// 处理返回的数据 给每一行加段落id 去掉location层
+				res.data.paragraphs_result.map((pr, index) => {
+					pr.words_result_idx.map((wr) => {
+						
+						const prev = res.data.words_result[wr]
+						res.data.words_result[wr] = {
+							words: prev.words,
+							top: prev.location.top + 'px',
+							left: prev.location.left + 'px',
+							width: prev.location.width + 'px',
+							height: prev.location.height + 'px',
+							pid: index
+						}
+						
+					})
+				})
+				console.log(res.data)
 				resolve(res.data)
 			},
 			fail: res => {
